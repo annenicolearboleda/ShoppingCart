@@ -1,32 +1,53 @@
-"use strict";
-
 // VARIABLES
 const addToCartButtons = document.querySelectorAll(".cart-adding");
 const chosenItems = document.querySelector(".items-chosen");
+const addButton = document.querySelector(".add-button");
+const minusButton = document.querySelector(".minus-button");
+const quantityInput = document.querySelector(".quantity-from-button");
 
 // EVENTS
 addToCartButtons.forEach((button) => {
   button.addEventListener("click", addToCartOnce);
 });
 
-chosenItems.addEventListener("click", removeItem); // Add event listener for remove button clicks
+chosenItems.addEventListener("click", removeItem); // Add event listener to the chosenItems container
+
+addButton.addEventListener("click", increment);
+minusButton.addEventListener("click", decrement);
 
 // FUNCTIONS
 function addToCartOnce(e) {
   e.preventDefault();
-  console.log("clicked");
 
   const toBuy = document.createElement("div");
   toBuy.classList.add("itemAdded");
 
   const item = document.createElement("li");
+  const prc = document.createElement("span"); // Use <span> instead of <h2> for pricing
+
   const h2Element = this.parentNode.parentNode.querySelector("h2");
+  const h3Element = this.parentNode.parentNode.querySelector("h3");
+
   item.textContent = h2Element.textContent;
   item.classList.add("tobuy-item");
+  prc.textContent = h3Element.textContent;
+
   toBuy.appendChild(item);
+  toBuy.appendChild(prc); // Append the pricing span to the item container
+
+  const howMany = document.createElement("span");
+  const formHTML = `
+  <form>
+    <div>
+      <input class="quantity-from-button" type="number" id="quantity" name="quantity" min="1" value="1">
+    </div>
+  </form>
+`;
+  howMany.innerHTML = formHTML;
+  toBuy.appendChild(howMany);
 
   const removeButton = document.createElement("button"); // Create remove button
-  removeButton.textContent = "Remove"; // Set the text for the remove button
+  removeButton.innerHTML = `<i class="fa-solid fa-trash"></i>`; // Set the text for the remove button
   removeButton.classList.add("remove-item"); // Add a class to the remove button
   toBuy.appendChild(removeButton); // Append the remove button to the item container
 
@@ -37,10 +58,24 @@ function addToCartOnce(e) {
 }
 
 function removeItem(e) {
-  if (e.target.classList.contains("remove-item")) {
-    const itemContainer = e.target.parentNode;
+  if (e.target.classList.contains("fa-trash")) {
+    const itemContainer = e.target.closest(".itemAdded");
     itemContainer.remove();
   }
+}
+
+// Increment function
+function increment() {
+  const currentValue = parseInt(quantityInput.value);
+  const incrementedValue = currentValue + 1;
+  quantityInput.value = incrementedValue;
+}
+
+// Decrement function
+function decrement() {
+  const currentValue = parseInt(quantityInput.value);
+  const decrementedValue = Math.max(currentValue - 1, 0);
+  quantityInput.value = decrementedValue;
 }
 
 /* "use strict"
