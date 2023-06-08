@@ -87,3 +87,11 @@ body {
   height: 40px;
   text-align: center;
 }
+
+.total-amount {
+  position: fixed;
+  bottom: 40px;
+  right: 100px;
+  color: white;
+  font-size: 30px;
+}

@@ -1,9 +1,16 @@
+let totaling = 0;
 // VARIABLES
 const addToCartButtons = document.querySelectorAll(".cart-adding");
 const chosenItems = document.querySelector(".items-chosen");
 const addButton = document.querySelector(".add-button");
 const minusButton = document.querySelector(".minus-button");
 const quantityInput = document.querySelector(".quantity-from-button");
+const totalContain = document.querySelector(".total-container");
+const numberOnly = document.querySelector(".numberOnly");
+
+let totalAmount = 0;
+totalAmount += numberOnly;
+console.log(totalAmount);
 
 // EVENTS
 addToCartButtons.forEach((button) => {
@@ -16,6 +23,7 @@ addButton.addEventListener("click", increment);
 minusButton.addEventListener("click", decrement);
 
 // FUNCTIONS
+
 function addToCartOnce(e) {
   e.preventDefault();
 
@@ -53,8 +61,29 @@ function addToCartOnce(e) {
 
   chosenItems.appendChild(toBuy);
 
-  // Remove event listener after the first click
   this.removeEventListener("click", addToCartOnce);
+
+  const priceNum =
+    this.parentNode.parentNode.parentNode.querySelector(".price-number-only");
+  const priceValue = priceNum.textContent;
+  const numberPrice = priceValue.split(",").join("");
+  totaling += Number(numberPrice);
+  // console.log(priceValue);
+  numberOnly.textContent = totaling.toLocaleString();
+  // const divToRemove = document.querySelector(".total-amount");
+
+  // // Check if the div exists
+  // if (divToRemove) {
+  //   // Remove the div
+  //   divToRemove.remove();
+  // }
+
+  // const totalPrice = document.createElement("div");
+  // const totaling = `<div class="total-amount">TOTAL AMOUNT: Php ${totalAmount[0]}</div>`;
+  // totalPrice.innerHTML = totaling;
+  // totalContain.appendChild(totalPrice);
+
+  // Remove event listener after the first click
 }
 
 function removeItem(e) {
